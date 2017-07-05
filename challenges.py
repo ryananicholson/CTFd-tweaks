@@ -122,7 +122,7 @@ def chals():
             chal_type = get_chal_class(x.type)
             fails = WrongKeys.query.filter_by(teamid=session['id'], chalid=x.id).count()
             if fails > 2:
-                total = 0
+                total = x.value / 20
             else:
                 total = x.value / (2**fails)
             json['game'].append({
@@ -295,7 +295,7 @@ def chal(chalid):
             if chal_class.solve(chal, provided_key):
                 if utils.ctftime():
                     if fails > 2:
-                        total = 0
+                        total = chal.value / 20
                     else:
                         total = chal.value / (2**fails)
                     solve = Solves(chalid=chalid, teamid=session['id'], ip=utils.get_ip(), flag=provided_key, value=total)
